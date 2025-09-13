@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pokemon Explorer Application
 
-## Getting Started
+## Project Setup and Running Instructions
 
-First, run the development server:
+## Design and Component Decisions
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Structure
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Components
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The first thing I did to start this project was read through the shadcn/UI docs as I had not previously used this package. On looking through the components I noticed a lot of similarities to the Figma design. Therefore, I actively matched different parts of the Figma design to the different components before even beginning to code. These are shown here:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Pokemon Type: _Badge_
+- Pagiation: _Buttons_
+- Search Bar: _Input + Button_
+- Pokemon Sections (Both on main page and after search): _Cards_
+- Loading State Indicators: _Skeletons/Progress??????_ TODO CHECK THIS AT END
 
-## Learn More
+### Interpretations/Deviations
 
-To learn more about Next.js, take a look at the following resources:
+## State Management Approach
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API Interactions Strategy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Challenges Encountered
 
-## Deploy on Vercel
+## Bonus Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Self-Reflections

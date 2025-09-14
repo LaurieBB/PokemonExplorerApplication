@@ -22,7 +22,30 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 
 ## API Interactions Strategy
 
+I have a very basic helper function that is being used to make all of the connections to the API, which are all called from a seperate component that is then
+
 ## Challenges Encountered
+
+### React Hooks
+
+Having been a while since using React, I had to relearn how to use Hooks and which files they can be used in (client/server components), as well as the best file structure and layout to enable use of State for the information from the API as well having successful fetches.
+TODO ADD MORE DATA HERE.
+
+Since Next.js always defaults to having all files as server components to improve performance, this was trickier for me to debug having not remembered this. IMPORTANT INFORMATION BUT NOT SURE HOW TO PHRASE
+
+SOME OF THIS IS ACTUALLY JUST REACT STUFF SO MAYBE I SHOULDN'T SAY IT?????
+
+- This link explains use client and use server: https://react.dev/reference/rsc/use-client#serializable-types
+
+### Client vs Server Side Components
+
+I chose to create a custom hook to handle the API access for the website. I thought this would be most efficient in terms of space and calling of the function. However, I encountered a lot of issues with then transferring the data from the client component API call into the server component web pages.
+
+Maybe talk about choice to not Server Side Render (SSR) the pages, despite it increasing performance and ensuring all pages are rendered on the first time, there is not a lot of need for it when it is such a basic page. Furthermore, since the instructions clearly state to store the pokemon information in the web pages state it is not appropriate to do this. Additionally, the dynamic interaction whereby each pokemon needs to be individually selectable is easier and better to do in a client-side rendered component as compared to one
+
+### Next File Structure
+
+I had a surprising amount of trouble correctly organising the file structure for Next. Having built previous applications with a Laravel PHP backend, and so following a Model-View-Controller structure, I found it harder than expected to decipher the docs on how I should be organising routes and file structure.
 
 ## Bonus Features
 

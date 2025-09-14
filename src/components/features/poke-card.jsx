@@ -10,8 +10,8 @@ import {
 
 // Basic card layout for each of the Pokemon in Landing Page 1+2+SearchResults
 
-export default function PokeCard(props) {
-    return(
+export default function PokeCard(props) { //FORMAT THE CARDS CORRECTLY HERE
+    return (
         <div>
             <Card> 
                 <CardTitle>{props.name}</CardTitle>

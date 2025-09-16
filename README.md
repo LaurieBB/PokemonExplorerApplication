@@ -20,9 +20,13 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 
 ## State Management Approach
 
+I chose to take all the information about the pokemon required for each page
+
 ## API Interactions Strategy
 
 I have a very basic helper function that is being used to make all of the connections to the API, which are all called from a seperate component that is then
+
+I chose to have all of the pokemon and their data loaded in one big API fetch server-side at the beginning, to load the list of pokemon, and then passed the data down to the "card2 component to save state and display the pokemon. This saved rendering time, as although it is a large component with many concurrent fetches in "Promise.all" it
 
 ## Challenges Encountered
 
@@ -46,6 +50,14 @@ Maybe talk about choice to not Server Side Render (SSR) the pages, despite it in
 ### Next File Structure
 
 I had a surprising amount of trouble correctly organising the file structure for Next. Having built previous applications with a Laravel PHP backend, and so following a Model-View-Controller structure, I found it harder than expected to decipher the docs on how I should be organising routes and file structure.
+
+### Inability to match Figma
+
+There are certain aspects (such as Bulbasaurs description) which are impossible to match from the original design as it doesn't exist in the PokeAPI, so I had to make substitutions from what was available on the API.
+List:
+
+- Bulbasaur's description could not be found within the list of descriptions for that Pokemon on the API.
+- Bulbasaur's weakness to "Ice" type pokemon, could not be found as a weakness for either of Bulbasaur's types, and was instead replaced with "Ground" which "Poison" type is weak to.
 
 ## Bonus Features
 

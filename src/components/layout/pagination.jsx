@@ -4,7 +4,7 @@ import { Button } from "@components/ui/button"
 
 // Need to add functionality as well as the fact the arrows there are slightly different to the Figma Design 
 
-export default function Pagiation() {
+export default function Pagination() {
     return (
         <div>
             <Button>&#129120; Back</Button>

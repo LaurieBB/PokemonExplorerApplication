@@ -4,32 +4,30 @@ import { getPokeAPI } from "./getPokeAPI";
 import React from "react";
 import { useState, useEffect } from "react";
 
-import PokeLayout from "../components/features/poke-layout";
+import PokeCardLayout from "../components/features/poke-card-layout";
 
-export default function FetchPokemon() {
+export default function fetchPokemon() {
     const [pokemon, setPokemon] = useState(null)
     const [data, setData] = useState(null)
-    const [currentURL, setCurrentURL] = useState("https://pokeapi.co/api/v2/pokemon/")
-    const [nextURL, setNextURL] = useState(null)
-    const [prevURL, setPrevURL] = useState(null)
+    const [pageNum, setPageNum] = useState(0) // Should be updated on Pagination and cause new pokemon to be returned
+    const [currentURL, setCurrentURL] = useState("https://pokeapi.co/api/v2/pokemon/?offset=" + (pageNum * 12) + "&limit=12")
 
     // This takes the basic information of the pokemon, plus their names and the next and previous URLs to get more pokemon from the API  
     useEffect(() => {
         getPokeAPI(currentURL, "")
         .then(setData);
-    }, [currentURL]);
+    }, [pageNum]);
 
 
+    // TODO CHANGE - Put this in a seperate component and call multiple of the same component and remove the Promise()
     // Takes the rest of the information for each pokemon that was retrieved from the API above. 
     useEffect(() => {
         if (!data) return; 
-        setNextURL(data.next)
-        setPrevURL(data.previous)
 
         const fetchAllPoke = async () => {
             try {
                 // This line is used to retrieve the individual pokemon information fromt the API
-                const promises = data.results.map((poke, id) => getPokeAPI("https://pokeapi.co/api/v2/pokemon/", id+1 + "/"));
+                const promises = data.results.map((poke, id) => (getPokeAPI("https://pokeapi.co/api/v2/pokemon/", id+1 + "/")));
                 const pokemonData = await Promise.all(promises); 
                 setPokemon(pokemonData);
             } catch (error) {
@@ -47,5 +45,10 @@ export default function FetchPokemon() {
         return <p> Loading...</p> //ADD SPINNER HERE
     }
 
-    return (<PokeLayout name={pokemon[0].name}></PokeLayout>); // START HERE AND FIND A WAY TO PASS DATA CORRECTLY TO POKE-LAYOUT
+    return (
+        <div>
+            <PokeCardLayout pokeInfo={pokemon}></PokeCardLayout>
+            {/* <p>{JSON.stringify(currentURL)}</p> */}
+        </div>
+    );
 }

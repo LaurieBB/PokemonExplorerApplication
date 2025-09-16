@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 import PokeCardLayout from "../components/features/poke-card-layout";
 
-export default function fetchPokemon() {
+export default function FetchPokemon() {
     const [pokemon, setPokemon] = useState(null)
     const [data, setData] = useState(null)
     const [pageNum, setPageNum] = useState(0) // Should be updated on Pagination and cause new pokemon to be returned

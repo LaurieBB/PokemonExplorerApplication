@@ -30,6 +30,12 @@ I chose to have all of the pokemon and their data loaded in one big API fetch se
 
 ## Challenges Encountered
 
+I AM SO CONFUSED - DO I NEED A "PAGES" DIRECTORY OR NOT???? THE NEXT JS DOCS SAY I DO, BUT THEN OTHER THINGS SAY THAT I NEED TO HAVE ALL PAGES IN "app" I DO NOT UNDERSTAND
+
+### Following Next best practices
+
+Originally, I implemented all of the fetches on the client-side, as I realised that any hooks used had to be in a client component, and I thought that to correctly store state (as is the requirements), I had to immediately save this data. However, as I went on and did more research into Next, I came to the conclusion that fetching all the data server-side and passing it through the components and storing state on the client-side at the furthest possible leaf-node component was the ideal structure to follow, so I went through and changed my code completely.
+
 ### React Hooks
 
 Having been a while since using React, I had to relearn how to use Hooks and which files they can be used in (client/server components), as well as the best file structure and layout to enable use of State for the information from the API as well having successful fetches.

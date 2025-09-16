@@ -25,7 +25,7 @@ export default function PokeCard(props) { //FORMAT THE CARDS CORRECTLY HERE
                     <p>{props.num}</p>
 
                     <div>
-                        {props.types.map((type) => <Badge key={type.id}>{type}</Badge>)}
+                        {props.types.map((type, index) => <Badge key={index}>{type}</Badge>)}
                     </div>
                 </CardContent>
             </Card>

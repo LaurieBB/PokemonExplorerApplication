@@ -5,6 +5,23 @@ import { useState, useEffect } from "react"
 
 import FetchPokemonDetails from "@api/fetch-pokemon-details"
 
+import { Button } from "@components/ui/button"
+import Link from 'next/link'
+
+import {useSearchParams } from 'next/navigation';
+
+import { Spinner } from "@components/ui/shadcn-io/spinner/index"
+
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@components/ui/card"
+
 // This is used to take the detailed Pokemon information from the API call and to arrange it in the correct format
 
 // Pokemon details layout:
@@ -19,6 +36,15 @@ import FetchPokemonDetails from "@api/fetch-pokemon-details"
         // weaknesses: pokeDataUnfiltered[4].flat()
 
 export default function PokeDescLayout(props) { 
+    const searchParams = useSearchParams()
+
+    // Retrieve the page number to return to, so it displays the correct Pokemon when returning
+    const callbackPage = searchParams.get('callbackPage')
+    // Retrieve the query to return to, if there is one.
+    const query = searchParams.get('query')
+    // Generating the URL to return to, based on the query and the callback page
+    const returnURL = query ? `/${callbackPage}?query=${query}` : `/${callbackPage}`
+
     const [pokemon, setPokemon] = useState(null)
 
     useEffect(() => {
@@ -26,26 +52,74 @@ export default function PokeDescLayout(props) {
     })
 
     if (!pokemon) {
-        return <div>Loading...</div> // ADD SPINNER HERE
+        return (
+            <Spinner variant="circle"></Spinner>
+        ) 
     }
 
     return (
         <div>
-            <p>{JSON.stringify(pokemon.id)}</p>
-            <p>{JSON.stringify(pokemon.name)}</p> 
-            <img src={pokemon.imageURL}></img>
-            <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cherish-ball.png"}></img>
-            <p>{JSON.stringify(pokemon.types)}</p> 
-            <p>{JSON.stringify(pokemon.weight)}</p> 
-            <p>{JSON.stringify(pokemon.height)}</p> 
-            <p>{JSON.stringify(pokemon.description)}</p> 
-            <p>{JSON.stringify(pokemon.category)}</p> 
-            <p>{JSON.stringify(pokemon.gender)}</p> 
-            <p>{JSON.stringify(pokemon.weaknesses)}</p> 
-            <p>{JSON.stringify(pokemon.abilityName)}</p> 
-            <p>{JSON.stringify(pokemon.abilityDescription)}</p> 
-            <p>{JSON.stringify(pokemon.stats)}</p> 
+            <div>
+                <Card> 
+                    <img src={pokemon.imageURL}></img>
+                    <div>
+                        <CardTitle>{JSON.stringify(pokemon.name)}</CardTitle>
+                        <CardTitle>{JSON.stringify(pokemon.id)}</CardTitle>
+                    </div>
+                </Card>
+            </div>
+            <Card> 
+                <CardContent>
+                    <img src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cherish-ball.png"}></img>
+                    <p>{JSON.stringify(pokemon.description)}</p>
+                </CardContent>
+            </Card>
+            <div>
+                <Card> 
+                    <CardContent>
+                        <h1>Height</h1>
+                        <p>{JSON.stringify(pokemon.height)} m</p>
+                        <h1>Category</h1>
+                        <p>{JSON.stringify(pokemon.category)}</p>
+                        <h1>Weight</h1>
+                        <p>{JSON.stringify(pokemon.weight)} kg</p>
+                        <h1>Gender</h1>
+                        <p>{JSON.stringify(pokemon.gender)}</p>
+                    </CardContent>
+                </Card>
+            </div>
+            <div>
+                <div>
+                    <Card> 
+                        <CardContent>
+                            <h1>Type</h1>
+                            <p>{JSON.stringify(pokemon.types)} m</p>
+                            <h1>Weaknesses</h1>
+                            <p>{JSON.stringify(pokemon.weaknesses)}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div>
+                    <Card> 
+                        <CardContent>
+                            <h1>Ability</h1>
+                            <h2>{JSON.stringify(pokemon.abilityName)}</h2>
+                            <p>{JSON.stringify(pokemon.abilityDescription)}</p>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+            <div>
+                <Card> 
+                    <CardContent>
+                        <p>{JSON.stringify(pokemon.stats)}</p>
+                    </CardContent>
+                </Card>
+            </div>
 
+            <Button>
+                <Link href={returnURL}>&#129120; Return Home</Link>
+            </Button>
         </div>
     )
 }

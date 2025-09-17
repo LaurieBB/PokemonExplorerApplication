@@ -7,10 +7,9 @@ import { useState, useEffect } from "react"
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
-// This function takes the input and then adds it as a query to the URL, which can then be picked up in INSERT HERE to complete the search TODO TODO
-
 // There are two important things to note: Regular pokemon just go up to id #1025, whereas special pokemon start at #10000 and go up to #10277. Therefore, this needs to be accounted for if searching by ID
 
+// This function takes the input and then adds it as a query to the URL, which can then be picked up in the landing page and sent to "poke-card-layout" to handle the search
 export default function Search() {
     const [search, setSearch] = useState(null)
 

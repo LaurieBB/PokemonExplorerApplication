@@ -11,6 +11,8 @@ client components:
 - search.jsx
 - pagination.jsx
 
+I have made a weird decision in terms of rendering the pages of pokemon, I have used a URL-based method to remember which page to return to when after selecting "return home" on the detailed pokemon page. However, it would be inefficient to constantly use this method to change pages as it would require re-rendering from the server, therefore, I have chosen to have a client-side update of the pages of pokemon, but only on return update the URL.
+
 ### Components
 
 The first thing I did to start this project was read through the shadcn/UI docs as I had not previously used this package. On looking through the components I noticed a lot of similarities to the Figma design. Therefore, I actively matched different parts of the Figma design to the different components before even beginning to code. These are shown here:
@@ -19,6 +21,7 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 - Pagiation: _Buttons_
 - Search Bar: _Input + Button_
 - Pokemon Sections (Both on main page and after search): _Cards_
+- Pokemon Details Stats: _Progress_
 - Loading State Indicators: _Skeletons/Progress??????_ TODO CHECK THIS AT END
 
 ### Interpretations/Deviations
@@ -74,8 +77,37 @@ List:
 
 ## Bonus Features
 
+### Loading state indicators
+
+I imported these as a shadcn component and simply added a "if (!_state_) { return Spinner }" which would render anytime the calls to the API were still being made, and the state hadn't been updated. Additionally, on the initial server side call, I added a default "loading.js" page to the "app" directory which will always show the spinner and the bare-bones components when loading.
+
+### Display Pokemon Images
+
+I didn't do this in the most efficient way and simply used an image tag with the API URL within it, which I took from the initial calls. I'm sure finding a way to pass the real images would have been more efficient, and have less API calls, however this functioned well for this use case and only 12 pokemon per page layout ensuring not too many calls were made.
+
+MAYBE CHANGE THIS
+
+### Search Functionality
+
+To implement the search I used a "query" that was added as part of the URL, this was then sent to the components, via the main page, and the API was called. The API returned a full list of the basic information and all the pokemon names, which were then filtered to find only those that contained the input. These were then subsequently called for further information to display the Poke Cards of all the data.
+
+I did not have to implement any kind of debouncing method, due to the desired Figma layout which used a "Search" button, as opposed to a simple input. If there was further time, I would implement the search bar to continuously update a list as the user types, however this didn't seem relevant in this project.
+
 ## Self-Reflections
+
+### If I had more time I would:
+
+- Add error handling for ALL API calls
+- Correct the layout so somehow the "pokemon" state in "poke-card-layout" was stored while looking at a specific "pokemon-details" rather than having to reload from the page number on return. This would be more efficient. I could have done this by passing the entire list of pokemon into the Pokemon Details page, however I would then have to pass this back and it would make the URL exceedingly long and seemed like a bad way of doing this.
+- Add a server-side render on the first run to improve efficiency. The code is actually here to do this, my "fetch-pokemon" function actually works both server and client side, however to then pass the data into the PokeCardLayout wasn't easy to do, and didn't seem worth it given the time-frame.
+- (as mentioned above) have the search bar continuously refresh a page of all the items as opposed to simply waiting for "Search" to be pressed.
 
 ## AI Usage
 
 I wanted to add this small section to discuss my personal usage of AI throughout the development process.
+
+## Questions
+
+I had a few personal questions about Next JS conventions that I couldn't find online. Since this is my first time using it, I was hoping you may be able to address them for me:
+
+-

@@ -1,5 +1,10 @@
 "use client"
 
+
+// DEPRECATED FUNCTION - NO LONGER BEING USED. CAN BE SEEN IF WANT TO UNDERSTAND MY PROCESS
+
+
+
 import { getPokeAPI } from "./get-poke-api";
 import React from "react";
 import { useState, useEffect } from "react";
@@ -45,7 +50,7 @@ export default function FetchPokemonDetails(props) {
     }, [pokemon]);
 
     if (!pokemon) {
-        return <p>Loading...</p> //ADD SPINNER HERE
+        return <p>Loading...</p> 
     }
 
     if (!species) {

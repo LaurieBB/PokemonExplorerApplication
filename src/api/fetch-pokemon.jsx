@@ -14,7 +14,6 @@ export default async function FetchPokemon(page) {
     const pokemon = await getPokeAPI("https://pokeapi.co/api/v2/pokemon/?offset=" + (page * 12) + "&limit=12");
 
     // Takes the rest of the information for each pokemon that was retrieved from the API above and formats it for the Landing page.
-    // Have to add 1 to id as it is indexed from 0
     const pokeDataPromises = pokemon.results.map((poke) => getPokeAPI(poke.url, ""))
     const pokeDataUnfiltered = await Promise.all(pokeDataPromises)
 

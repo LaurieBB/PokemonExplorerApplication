@@ -9,15 +9,14 @@ import FetchPokemon from "../api/fetch-pokemon"
 
 export default async function LandingPage() {
 
-  const initPokemon = await FetchPokemon(0)
+  const pokemon = FetchPokemon(0)
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <Header></Header>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <PokeLayout pokemon={initPokemon}></PokeLayout>
+        <PokeLayout></PokeLayout>
       </main>
-      <Pagination></Pagination>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <Footer></Footer>
       </footer>

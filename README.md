@@ -6,6 +6,11 @@
 
 ### Structure
 
+client components:
+
+- search.jsx
+- pagination.jsx
+
 ### Components
 
 The first thing I did to start this project was read through the shadcn/UI docs as I had not previously used this package. On looking through the components I noticed a lot of similarities to the Figma design. Therefore, I actively matched different parts of the Figma design to the different components before even beginning to code. These are shown here:
@@ -22,11 +27,13 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 
 I chose to take all the information about the pokemon required for each page
 
+Originally, I was loading all the pokemon data from the server-side as I read that keeping as many components as possible as server-components is ideal. However, when I started using state from within the "poke-card-layout" to hold the page number, and stopped individually rendering each page of pokemon from the server-side and began loading the API calls client-side within this component, based on the page number state, it performed far more efficiently with a noticable performance improvement. It updates when either the pageNum or the SearchBar updates.
+
 ## API Interactions Strategy
 
 I have a very basic helper function that is being used to make all of the connections to the API, which are all called from a seperate component that is then
 
-I chose to have all of the pokemon and their data loaded in one big API fetch server-side at the beginning, to load the list of pokemon, and then passed the data down to the "card2 component to save state and display the pokemon. This saved rendering time, as although it is a large component with many concurrent fetches in "Promise.all" it
+I chose to have all of the pokemon and their data loaded in one big API fetch server-side at the beginning, to load the list of pokemon, and then passed the data down to the "card" component to save state and display the pokemon. This saved rendering time, as although it is a large component with many concurrent fetches in "Promise.all" it
 
 ## Challenges Encountered
 
@@ -68,3 +75,7 @@ List:
 ## Bonus Features
 
 ## Self-Reflections
+
+## AI Usage
+
+I wanted to add this small section to discuss my personal usage of AI throughout the development process.

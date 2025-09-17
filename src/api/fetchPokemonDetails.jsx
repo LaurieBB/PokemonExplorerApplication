@@ -1,6 +1,6 @@
 "use client"
 
-import { getPokeAPI } from "./getPokeAPI";
+import { getPokeAPI } from "./get-poke-api";
 import React from "react";
 import { useState, useEffect } from "react";
 

@@ -90,3 +90,102 @@ useEffect(() => {
         }
         
     })
+
+
+      const handleClick = () => {
+        useEffect(() => {
+            if (!search) return; 
+    
+            // This fetches all of the available pokemon and their information
+            const fetchAllPoke = async () => {
+                try {
+                    const allPoke = getPokeAPI("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100000", "") // Just set a ridiculous number here to return everything
+                    setPokemon(allPoke);
+                } catch (error) {
+                    console.error("Error fetching Pokémon:", error);
+                }
+            };
+            fetchAllPoke();
+    
+            // Search the list of all the names to find any matches 
+            const pokeNames = pokemon.map((poke) => poke.name)
+            const matchPoke = pokeNames.find(search)
+    
+            console.log(matchPoke)
+    
+            // Take the full information to display the PokeCards 
+    
+        }, [search]);
+        console.log("Input value:", search)
+      }
+    
+
+      // There are two important things to note: Regular pokemon just go up to id #1025, whereas special pokemon start at #10000 and go up to #10277. Therefore, this needs to be accounted for if searching by ID
+"use client"
+
+import React from "react"
+import { Button } from "@components/ui/button"
+import { Input } from "@components/ui/input"
+import { useState, useEffect } from "react"
+
+import { getPokeAPI } from "@/src/api/get-poke-api";
+
+export default function Search() {
+    const [search, setSearch] = useState(null)
+    const [pokemon, setPokemon] = useState("null")
+
+    const handleClick = async () => {
+        if (!search) return; 
+
+        // This fetches all of the available pokemon and their information
+        try {
+            await getPokeAPI("https://pokeapi.co/api/v2/pokemon/?offset=0&limit=100000", "").then(setPokemon) // Just set a ridiculous number here to return everything
+        } catch (error) {
+            console.error("Error fetching Pokémon:", error);
+        }
+
+        if (!pokemon) {
+            console.log("Loading..")
+            return;
+        }
+
+        // Search the list of all the names to find any matches 
+        const pokeNames = pokemon.results.map((poke) => poke.name)
+        const matchPoke = pokeNames.find(name => name == search)
+
+        console.log(matchPoke)
+
+        // Take the full information to display the PokeCards 
+
+        console.log("Input value:", search)
+    }
+
+    return (
+        <div>
+        <Input
+            type="text"
+            placeholder="Find Pokémon"
+            onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button onClick={handleClick}>Search</Button>
+        </div>
+    )
+}
+
+    // var pathname = usePathname()
+
+    // if (pathname == '/') {
+    //     pathname = '/0'
+    // }
+
+    // pathname = pathname.replace('/', '')
+
+    // const clickNext = () => {
+    //     window.location.href=`/${Number(pathname) + 1}`
+    // }
+
+    // const clickBack = () => {
+    //     if (pathname > 0) {
+    //         window.location.href=`/${Number(pathname) - 1}`
+    //     }
+    // }

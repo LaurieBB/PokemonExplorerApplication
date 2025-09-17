@@ -1,4 +1,12 @@
-import { getPokeAPI } from "./getPokeAPI";
+import { getPokeAPI } from "./get-poke-api";
+
+// Function to fetch the list's of pokemon for each page, based on the page number. It returns this information:
+// "pokeData" layout - A List of pokemon containing:
+//      id: pokemon.id - ID Integer
+//      name: pokemon.name - Name String
+//      imageURL: pokemon.sprites.front_default - Sprite URL
+//      types: pokemon.types - List of types
+
 
 export default async function FetchPokemon(page) {
 

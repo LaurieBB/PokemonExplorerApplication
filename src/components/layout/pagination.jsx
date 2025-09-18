@@ -12,11 +12,21 @@ export default function Pagination(props) {
     // The functions are declared in "poke-card-layout" so that it will edit the page state stored there. s
     const clickNext = props.clickNext
     const clickBack = props.clickBack
+    const disableBack = props.disableBack
+    const disableNext = props.disableNext
 
     return (
         <div className="flex gap-3">
-            <Button onClick={clickBack}>&#129120; Back</Button>
-            <Button onClick={clickNext}>Next &#129122; </Button>
+            <Button 
+            onClick={clickBack}
+            disabled={disableBack}
+            className={disableBack ? "bg-neutral-500" : ""}
+            >&#129120; Back</Button>
+
+            <Button 
+            disabled={disableNext}
+            className={disableNext ? "bg-neutral-500" : ""}
+            onClick={clickNext}>Next &#129122; </Button>
         </div>
     )
 }

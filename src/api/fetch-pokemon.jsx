@@ -17,6 +17,8 @@ export default async function FetchPokemon(page) {
     const pokeDataPromises = pokemon.results.map((poke) => getPokeAPI(poke.url, ""))
     const pokeDataUnfiltered = await Promise.all(pokeDataPromises)
 
+    const pokeCount = pokemon.count
+
     const pokeData = pokeDataUnfiltered.map((poke) => {
         return {
             id: poke.id, 
@@ -27,6 +29,6 @@ export default async function FetchPokemon(page) {
     })
 
     return (
-        pokeData
+        {pokeData, pokeCount}
     );
 }

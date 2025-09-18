@@ -1,5 +1,3 @@
-import FetchPokemon from "../api/fetch-pokemon";
-
 import {redirect} from 'next/navigation'
 
 export default async function Home() {

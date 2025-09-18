@@ -4,7 +4,7 @@ import { Separator } from "@components/ui/separator"
 
 export default function Footer() {
     return (
-        <footer className="flex flex-col items-center text-center w-full">
+        <footer className="flex flex-col items-center text-center w-full mb-15">
             <Separator className="w-full"></Separator> 
             <p className="mt-30"><b>Thank you for using Pokémon Browser!</b></p>
         </footer>

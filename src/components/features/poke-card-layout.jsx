@@ -28,6 +28,8 @@ import { Spinner } from "@components/ui/shadcn-io/spinner/index"
 export default function PokeCardLayout(props) { 
     const [pageNum, setPageNum] = useState(Number(props.page) || 0)
     const [pokemon, setPokemon] = useState(null)
+    const [pokeCount, setPokeCount] = useState(null) // Used to hold the max number of pokemon, for pagination
+    
     
     // query is sent to this layout if there is any data in the Search bar, which is echoed in the URL and then passed down from the page
     const query = props.query 
@@ -39,25 +41,44 @@ export default function PokeCardLayout(props) {
     }
     else {
         useEffect(() => {
-            FetchPokemon(pageNum).then(setPokemon)
+            // Have to fetch both the pokemon and the max number of pokemon, to ensure the page number doesn't exceed the maximum number
+            FetchPokemon(pageNum).then((data) => {
+                setPokemon(data.pokeData)
+                setPokeCount(data.pokeCount)
+            }) 
         })
     }
 
+    // While pokemon is being loaded, it shows a spinner page identical both to the server-side render page and with the same layout as the poke-card-layout page
     if (!pokemon) {
         return (
-            <Spinner variant="circle"></Spinner> // TODO add extra padding above and below the spinner to match the page size
+            <div className="flex flex-col w-full h-full flex-1">
+                <div className="flex items-center justify-between mb-8 w-full ">
+                    <h2 className="text-xl font-bold">Explore Pokémon</h2>
+                    <Search />
+                </div>
+        
+                <main className="flex flex-col justify-center items-center text-center flex-1 w-full ">
+                    <Spinner variant="circle"></Spinner>
+                </main>
+        
+                <div className="flex justify-center mt-8 w-full">
+                <Pagination 
+                    disableBack={true}
+                    disableNext={true}
+                />
+                </div>
+            </div>
         ) 
     }
 
-
-    // TODO MAKE VERTICAL GAPS BIGGER THAN THE HORIZONTAL ONES
     return (
         <div className="w-full h-full">
             <div className="flex items-center justify-between mb-8">
                 <h2 className="text-xl font-bold">Explore Pokémon</h2>
                 <Search />
             </div>
-            <div className="grid grid-cols-4 grid-rows-3 gap-4">
+            <div className="grid grid-cols-4 grid-rows-3 gap-x-4 gap-y-10">
                 {pokemon.map(function(poke) { 
                     return(
                         <PokeCard key={poke.id} pokemon={poke} pageNum={pageNum} query={query}></PokeCard> 
@@ -68,6 +89,8 @@ export default function PokeCardLayout(props) {
                 <Pagination 
                 clickNext={() => setPageNum(pageNum + 1)}
                 clickBack={() => setPageNum(pageNum - 1)}
+                disableBack={pageNum == 0}
+                disableNext={pageNum == (Math.floor(Number(pokeCount)/12))}
                 />
             </div>
         </div>

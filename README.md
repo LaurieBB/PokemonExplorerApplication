@@ -98,6 +98,7 @@ I did not have to implement any kind of debouncing method, due to the desired Fi
 
 - Saving the query in the URL to ensure that when you select "return home", the query is saved in case the user wants to view other pokemon.
 - I am very happy with how accurate I got the styling to the Figma design. I spent a long time making it as accurate as possible as I knew this was a key marking point and I believe I was very successful.
+- Having the loading screens with the spinner match up identically with one another for the primary server-side render of the page and then the subsequent API call wasn't easy, however it was achieved. The spinner therefore seems almost seamless between the two separate loading stages, when in fact it is not.
 
 ### If I had more time I would:
 

@@ -61,7 +61,11 @@ export default function PokeDescLayout(props) {
 
     if (!pokemon) {
         return (
-            <Spinner variant="circle"></Spinner> // TODO ADD EXTRA PADDING ABOVE AND BELOW THE SPINNER TO MATCH THE PAGE SIZE.
+            <div className="flex flex-col w-full h-full flex-1">
+                <main className="flex flex-col justify-center items-center text-center flex-1 w-full ">
+                    <Spinner variant="circle"></Spinner>
+                </main>
+            </div>
         ) 
     }
 

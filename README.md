@@ -2,6 +2,12 @@
 
 ## Project Setup and Running Instructions
 
+- git clone "https://github.com/LaurieBB/PokemonExplorerApplication"
+- cd "poke-explore-app"
+- npm run build
+- npm start
+- navigate to "http://localhost:3000" as instructed
+
 ## Design and Component Decisions
 
 ### Structure
@@ -25,6 +31,8 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 - Loading State Indicators: _Skeletons/Progress??????_ TODO CHECK THIS AT END
 
 ### Interpretations/Deviations
+
+- I believe the only deviation from the Figma was in the layout of the Weaknesses, as there were more than were anticipated (for the example Bulbasaur at least), for reasons I will discuss below. To account for the greater numbers, they had to be arranged as a grid, however I left the desired list format commented out above this line, so it can easily be reinstated later, if the bug is resolved.
 
 ## State Management Approach
 

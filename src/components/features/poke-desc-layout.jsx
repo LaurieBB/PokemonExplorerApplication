@@ -130,7 +130,8 @@ export default function PokeDescLayout(props) {
                         </div>
                         <div className="flex flex-col gap-2">
                             <h1 className="text-base font-bold">Weaknesses</h1>
-                            <div className="flex gap-2">
+                            {/* <div className="flex gap-2"> */}
+                            <div className="grid grid-cols-5 grid-rows-2 gap-2">
                                 {pokemon.weaknesses.map((type, index) => 
                                     <Badge key={index} className="text-[0.6rem]">
                                         {type[0].toUpperCase() + type.slice(1)}

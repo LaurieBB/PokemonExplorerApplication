@@ -13,6 +13,8 @@ import SearchPokemon from "@/src/api/search-pokemon";
 
 import { Spinner } from "@components/ui/shadcn-io/spinner/index"
 
+import { Suspense } from "react";
+
 // This function is used to return the list of pokemon, the loading spinner, the search bar and the pagination buttons for the page.
 // It also holds the state information shown below.
 
@@ -55,7 +57,9 @@ export default function PokeCardLayout(props) {
             <div className="flex flex-col w-full h-full flex-1">
                 <div className="flex items-center justify-between mb-8 w-full ">
                     <h2 className="text-xl font-bold">Explore Pokémon</h2>
-                    <Search />
+                    <Suspense>
+                        <Search />
+                    </Suspense>
                 </div>
         
                 <main className="flex flex-col justify-center items-center text-center flex-1 w-full ">

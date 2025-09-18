@@ -3,6 +3,8 @@ import Header from "@components/layout/header";
 
 import PokeDescLayout from "@/src/components/features/poke-desc-layout";
 
+import { Suspense } from "react";
+
 export default async function pokeDetails({ params }) {
   const param = await params
   const pokeName = await param.pokemon
@@ -16,7 +18,9 @@ export default async function pokeDetails({ params }) {
       
       {/* Width is set here to be 70% of the original page, this is to ensure it matches the Figma as best as it can. However, may reduced device compatability */}
       <main className="flex flex-1 flex-col items-center sm:items-start m-8 w-[70%]">
-        <PokeDescLayout className="w-full" name={pokeName}></PokeDescLayout>
+        <Suspense>
+          <PokeDescLayout className="w-full" name={pokeName}></PokeDescLayout>
+        </Suspense>
       </main>
       <Footer className="w-full"></Footer>
     </div>

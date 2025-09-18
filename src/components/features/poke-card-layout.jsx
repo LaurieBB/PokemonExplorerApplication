@@ -45,25 +45,31 @@ export default function PokeCardLayout(props) {
 
     if (!pokemon) {
         return (
-            <Spinner variant="circle"></Spinner>
+            <Spinner variant="circle"></Spinner> // TODO add extra padding above and below the spinner to match the page size
         ) 
     }
 
+
+    // TODO MAKE VERTICAL GAPS BIGGER THAN THE HORIZONTAL ONES
     return (
-        <div>
-            <h2>Explore Pokemon</h2>
-            <Search></Search>
-            {pokemon.map(function(poke) { 
-                return(
-                    <div key={poke.id}>
+        <div className="w-full h-full">
+            <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl font-bold">Explore Pokémon</h2>
+                <Search />
+            </div>
+            <div className="grid grid-cols-4 grid-rows-3 gap-4">
+                {pokemon.map(function(poke) { 
+                    return(
                         <PokeCard key={poke.id} pokemon={poke} pageNum={pageNum} query={query}></PokeCard> 
-                    </div>
-                )})
-            }
-            <Pagination 
-                clickNext={()=>{setPageNum(pageNum + 1)}}
-                clickBack={()=>{setPageNum(pageNum - 1)}}
+                    )})
+                }
+            </div>
+            <div className="flex justify-center mt-8">
+                <Pagination 
+                clickNext={() => setPageNum(pageNum + 1)}
+                clickBack={() => setPageNum(pageNum - 1)}
                 />
+            </div>
         </div>
     )
 }

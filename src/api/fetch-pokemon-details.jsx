@@ -21,10 +21,16 @@ export default async function FetchPokemonDetails(name) {
     // Have to find the matching ability description shown in Figma from this list returned by the API, which comes from the "sun-moon" version of Pokemon
     const abilityDescription = pokeDataUnfiltered[5].flavor_text_entries.find(item => item.language.name == "en" && item.version_group.name == "sun-moon")
 
-    // Return a list of [male, female, genderless] which shows Boolean values of which gender this pokemon has
+    // Return a list containing: [male, female, genderless] which indicates the gender of the pokemon
     const genderList = [pokeDataUnfiltered[1].pokemon_species_details.find(item => item.pokemon_species.name == name), 
                         pokeDataUnfiltered[2].pokemon_species_details.find(item => item.pokemon_species.name == name), 
-                        pokeDataUnfiltered[3].pokemon_species_details.find(item => item.pokemon_species.name == name)].map((item) => item ? true:false)
+                        pokeDataUnfiltered[3].pokemon_species_details.find(item => item.pokemon_species.name == name)].map((item, index) => {
+                            if (item) {
+                                if (index == 0) return "Male";
+                                if (index == 1) return "Female";
+                                if (index == 2) return "Genderless";
+                            }
+                            }).filter(Boolean)
 
     // Dictionary of statistics about the pokemon, to be displayed in bar form, as per Figma
     const stats = pokemon.stats.map((stat) => [stat.stat.name, stat.base_stat])

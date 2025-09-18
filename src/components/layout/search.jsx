@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
-// There are two important things to note: Regular pokemon just go up to id #1025, whereas special pokemon start at #10000 and go up to #10277. Therefore, this needs to be accounted for if searching by ID
+// There are two important things to note: Regular pokemon just go up to id #1025, whereas special pokemon start at #10000 and go up to #10277. Therefore, this needs to be accounted for if searching by ID TODO
 
 // This function takes the input and then adds it as a query to the URL, which can then be picked up in the landing page and sent to "poke-card-layout" to handle the search
 export default function Search() {
@@ -17,9 +17,11 @@ export default function Search() {
     const pathname = usePathname()
     const {replace} = useRouter()
 
-    function handleClick() {
+    function handleSubmit(e) {
+        e.preventDefault() // This has to be used to stop a full page reload each time the form submits.
+
+        // This section is used to load the query and add it to the URL, so it can be handled elsewhere.
         const params = new URLSearchParams(searchParams)
-        console.log(search)
 
         if (search) {
             params.set('query', search);
@@ -32,13 +34,15 @@ export default function Search() {
 
     return (
         <div>
-        <Input
-            type="text"
-            placeholder="Find Pokémon"
-            defaultValue={searchParams.get('query')?.toString()}
-            onChange={(e) => setSearch(e.target.value)}
-        />
-        <Button onClick={handleClick}>Search</Button>
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
+                <Input
+                    type="text"
+                    placeholder="Find Pokémon"
+                    defaultValue={searchParams.get('query')?.toString()}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <Button type="submit">Search</Button>
+            </form>
         </div>
     )
 }

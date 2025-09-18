@@ -73,7 +73,6 @@ There are certain aspects (such as Bulbasaurs description) which are impossible 
 List:
 
 - Bulbasaur's description could not be found within the list of descriptions for that Pokemon on the API.
-- Bulbasaur's weakness to "Ice" type pokemon, could not be found as a weakness for either of Bulbasaur's types, and was instead replaced with "Ground" which "Poison" type is weak to.
 
 ## Bonus Features
 
@@ -95,12 +94,24 @@ I did not have to implement any kind of debouncing method, due to the desired Fi
 
 ## Self-Reflections
 
+### Stuff I am proud of:
+
+- Saving the query in the URL to ensure that when you select "return home", the query is saved in case the user wants to view other pokemon.
+- I am very happy with how accurate I got the styling to the Figma design. I spent a long time making it as accurate as possible as I knew this was a key marking point and I believe I was very successful.
+
 ### If I had more time I would:
 
 - Add error handling for ALL API calls
 - Correct the layout so somehow the "pokemon" state in "poke-card-layout" was stored while looking at a specific "pokemon-details" rather than having to reload from the page number on return. This would be more efficient. I could have done this by passing the entire list of pokemon into the Pokemon Details page, however I would then have to pass this back and it would make the URL exceedingly long and seemed like a bad way of doing this.
 - Add a server-side render on the first run to improve efficiency. The code is actually here to do this, my "fetch-pokemon" function actually works both server and client side, however to then pass the data into the PokeCardLayout wasn't easy to do, and didn't seem worth it given the time-frame.
 - (as mentioned above) have the search bar continuously refresh a page of all the items as opposed to simply waiting for "Search" to be pressed.
+- Increase compatability with different screen sizes by using more complex tailwind CSS to account for the layouts (sm:, md:, lg:, etc.).
+
+### Errors that I am aware of:
+
+- If you search and there are more than 12 results, it will show all of the results on a single page
+- The pokemon weaknesses do not match those in the Figma. This is because I had to select the weaknesses based on a singular type rather than multiple, as each type has it's own list of weaknesses in the API. Perhaps there was some data in the API calls that I missed to find the correct weaknesses, however I couldn't find it myself and I had to move on to other issues.
+- (as mentioned above) The descriptions do not match those in the Figma - again as I could not find the correct one on the API.
 
 ## AI Usage
 

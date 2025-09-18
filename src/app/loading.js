@@ -4,6 +4,7 @@ import Footer from "@components/layout/footer";
 import Header from "@components/layout/header";
 
 // TODO ENSURE THE STYLING IS CORRECT HERE AS WELL
+// TODO add the extra size above and below the spinner to match the actual page
 
 export default function Loading() {
   // Add fallback UI that will be shown while the route is loading.

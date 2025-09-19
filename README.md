@@ -21,18 +21,11 @@ Start-up command-line instructions (can all be run through Git Bash):
 
 ### React Components
 
-TODO COME BACK HERE
-
 I chose to make seperate components for the header, footer, pagination and search bar as these are re-used throughout multiple search pages, as well as attempting to follow the principle of smallest possible components. These can all be found in the "src/components/layout" folder.
 
-My larger components are stored in "src/components/features" which make up the main body of both the Landing Page and the Pokemon Details page. The landing page consists of a client component "/poke-card-layout.jsx" which makes the API calls by calling the "src/api/fetch-pokemon.jsx" function and then iterately calls the "poke-card.jsx" component to show the information found. The "PokeCardLayout" function also handles the State for the landing page.
+My larger components are stored in "src/components/features" which make up the main body of both the Landing Page and the Pokemon Details page. The landing page consists of a client component "/poke-card-layout.jsx" which makes the API calls by calling the "src/api/fetch-pokemon.jsx" function and then iterately calls the "/poke-card.jsx" component to show the information found. The "PokeCardLayout" function also handles the State for the landing page. I did this to attempt to have the smallest client component I could, to follow Next.js best practices.
 
-client components:
-
-- search.jsx
-- pagination.jsx
-
-I have made a weird decision in terms of rendering the pages of pokemon, I have used a URL-based method to remember which page to return to when after selecting "return home" on the detailed pokemon page. However, it would be inefficient to constantly use this method to change pages as it would require re-rendering from the server, therefore, I have chosen to have a client-side update of the pages of pokemon, but only on return update the URL.
+If I had more time, I would have taken the "poke-desc-layout" component that holds the Pokemon Details page data and split it into smaller components. This would better fit with Next.js conventions and would be very easy to do, I just simply ran out of time.
 
 ### shadcn/ui Components
 
@@ -44,59 +37,51 @@ The first thing I did to start this project was read through the shadcn/UI docs 
 - Pagiation: _Buttons_
 - Search Bar: _Input + Button_
 - Pokemon Sections (Both on Landing Page and Details Page): _Card_
-- Pokemon Details Stats: _Progress_
+- Pokemon Stats Details: _Progress_
+
+These were all suitable, simply because they perfectly matched the Figma as well as making organising the data very easy and understandable for the user.
 
 ### Interpretations/Deviations
 
-I believe the only deviation from the Figma was in the layout of the Weaknesses, as there were more than were anticipated (for the Figma example Bulbasaur at least), for reasons I will discuss below. To account for the greater numbers, they had to be arranged as a grid, however I left the desired list format commented out above this line, so it can easily be reinstated later when the bug is resolved.
+The only deviations from the Figma was due to a lack of data in the API calls:
+
+- There were more weaknesses than anticipated (for the Bulbasaur example at least), for reasons I will discuss below. To account for the greater numbers, they had to be arranged as a grid, however I left the desired list format commented out above this line, so it can easily be reinstated later when the bug is resolved.
+
+- Bulbasaur's description could not be found within the list of descriptions for that Pokemon on the API.
 
 ## State Management Approach
 
-I chose to take all the information about the pokemon required for each page
+State is almost exclusively held in the "poke-card-layout.jsx" component, as this holds the pagination, search bar and the list of pokemon. The Pokemon list is updated on every new page and the page number is updated when page changes.
 
-Originally, I was loading all the pokemon data from the server-side as I read that keeping as many components as possible as server-components is ideal. However, when I started using state from within the "poke-card-layout" to hold the page number, and stopped individually rendering each page of pokemon from the server-side and began loading the API calls client-side within this component, based on the page number state, it performed far more efficiently with a noticable performance improvement. It updates when either the pageNum or the SearchBar updates.
+There is a small quirk with the way I have handled the page number I thought important to mention. It is stored in state but when I need to see the details of a specific pokemon I must know which page to return to. It is therefore passed as a "callbackPage" variable sent in the URL. To then return to the correct page, the "Return Home" button in the details page simply routes to "/{callbackPage}" which, due to the folder layout of "app/[page]", passes the page number as a prop. This is only a quirk because this URL doesn't update with the page number state while simply using pagination, as to do so would require a full server-side refresh and would be inefficient. Therefore, the URL is only updated when the details page loads.
+
+The "poke-desc-layout.jsx", which holds the details about the pokemon, handles it's own state of the pokemon data, which is only updated on selection.
+
+All the state is handled through "useState". I seriously considered using the Context API, especially for containing the search data and passing it back to the parent components. I ended up finding that using react's "useSearchParams" and adding to the URL enabled easier updating of the main Pokemon state, as well as enabling re-direction back to the same search query after selecting Pokemon details. This means the user doesn't lose their search just by selecting a pokemon, and is a feature I am proud of.
 
 ## API Interactions Strategy
 
-I have a very basic helper function that is being used to make all of the connections to the API, which are all called from a seperate component that is then
+All my API calls are made through components in the "src/api" folder. I have a simple helper function called "get-poke-api.jsx" which is called by the other functions to make all the connections. The other functions within this file handle collecting the relevant information for each section:
 
-I chose to have all of the pokemon and their data loaded in one big API fetch server-side at the beginning, to load the list of pokemon, and then passed the data down to the "card" component to save state and display the pokemon. This saved rendering time, as although it is a large component with many concurrent fetches in "Promise.all" it
+- Landing Page - "fetch-pokemon.jsx"
+- Details Page - "fetch-pokemon-details.jsx"
+- Search - "search-pokemon.jsx"
+
+Since each of these functionalities require different information to be taken from the API I felt it best for each to be handled in their own function. I also chose to use helper functions as they can be called both server and client-side as opposed to custom hooks, for example.
+
+This reasoning was important to me because I originally read in the Next.js docs that SSR should be used for "frequently updated data fetched from and external API". However, after implementing this I realised that the load-times were very slow and that state wasn't being handled correctly in this configuration. Therefore, I switched to client-side rendering which enabled more dynamic movement between the pages and better interactivity. It noticably improved load times and the overall experience.
+
+I am still aware that for the initial page load SSR is more efficient, and if I had more time I would go back and load the initial pokemon list this way. It should be easy using my functions, as I could simply load the list in the page and then pass it as props to the "poke-card-layout.jsx" component.
 
 ## Challenges Encountered
 
-I AM SO CONFUSED - DO I NEED A "PAGES" DIRECTORY OR NOT???? THE NEXT JS DOCS SAY I DO, BUT THEN OTHER THINGS SAY THAT I NEED TO HAVE ALL PAGES IN "app" I DO NOT UNDERSTAND
+### Search Functionality
+
+Handling passing data between components was a big challenge, with search being the hardest of them. As discussed above, I considered different ways of doing this and made attempts at using Context and prop drilling, but it was not successful. I then went back to the documentation and found a Next.js full tutorial on implementing a search bar. I adapted this to my context, by using a form and "handleSubmit" as opposed to updating the search each time the input changed. I then also had to pass the results through the "page.jsx" parameters (as it added to the URL using "useSearchParams") and into a client component so it could handle the new state and call the API. This was challenging because it was a combination of so many different aspects of Next.js, from client/server component issues to state management for the API call. The search bar was one of the last features that I implemented, so I was very grateful to myself for having spent time developing an understanding of how Next.js uses components and state in the other aspects of this project prior to this.
 
 ### Following Next best practices
 
-Originally, I implemented all of the fetches on the client-side, as I realised that any hooks used had to be in a client component, and I thought that to correctly store state (as is the requirements), I had to immediately save this data. However, as I went on and did more research into Next, I came to the conclusion that fetching all the data server-side and passing it through the components and storing state on the client-side at the furthest possible leaf-node component was the ideal structure to follow, so I went through and changed my code completely.
-
-### React Hooks
-
-Having been a while since using React, I had to relearn how to use Hooks and which files they can be used in (client/server components), as well as the best file structure and layout to enable use of State for the information from the API as well having successful fetches.
-TODO ADD MORE DATA HERE.
-
-Since Next.js always defaults to having all files as server components to improve performance, this was trickier for me to debug having not remembered this. IMPORTANT INFORMATION BUT NOT SURE HOW TO PHRASE
-
-SOME OF THIS IS ACTUALLY JUST REACT STUFF SO MAYBE I SHOULDN'T SAY IT?????
-
-- This link explains use client and use server: https://react.dev/reference/rsc/use-client#serializable-types
-
-### Client vs Server Side Components
-
-I chose to create a custom hook to handle the API access for the website. I thought this would be most efficient in terms of space and calling of the function. However, I encountered a lot of issues with then transferring the data from the client component API call into the server component web pages.
-
-Maybe talk about choice to not Server Side Render (SSR) the pages, despite it increasing performance and ensuring all pages are rendered on the first time, there is not a lot of need for it when it is such a basic page. Furthermore, since the instructions clearly state to store the pokemon information in the web pages state it is not appropriate to do this. Additionally, the dynamic interaction whereby each pokemon needs to be individually selectable is easier and better to do in a client-side rendered component as compared to one
-
-### Next File Structure
-
-I had a surprising amount of trouble correctly organising the file structure for Next. Having built previous applications with a Laravel PHP backend, and so following a Model-View-Controller structure, I found it harder than expected to decipher the docs on how I should be organising routes and file structure.
-
-### Inability to match Figma
-
-There are certain aspects (such as Bulbasaurs description) which are impossible to match from the original design as it doesn't exist in the PokeAPI, so I had to make substitutions from what was available on the API.
-List:
-
-- Bulbasaur's description could not be found within the list of descriptions for that Pokemon on the API.
+Having never used Next.js before, trying to find and follow the best practices were by far the biggest challenge in this project. The file structure was confusing due to different documentation and tutorials saying contradictory information about "/pages" and other routing methods. Client and server components also stumped me for the first 3 days of this project, as I had read that you should only use client components where absolutely necessary and so attempted to use them nowhere! Obviously now, this seems ridiculous but I did find it very confusing. To solve this, after spending a few days making a basic layout, I went back to absolute basics and watched multiple hour-long Next.js tutorials on Youtube. This gave me more real-world practical applications than the documentation did and set me on the right path.
 
 ## Bonus Features
 
@@ -122,21 +107,21 @@ I did not have to implement any kind of debouncing method, due to the desired Fi
 - I am very happy with how accurate I got the styling to the Figma design. I spent a long time making it as accurate as possible and I believe I was very successful.
 - Having the loading screens with the spinner match up identically with one another for the primary server-side render of the page and then the subsequent API call was particularly satisfying.
 
-The key thing I am most proud of is developing an understanding of Next.js. I was initially baffled by client/server components and the conventions on using as few client components as possible etc. However, I now feel very confident in developing further websites using Next and I am very pleased with that.
-
-### If I had more time I would:
-
-- Add error handling for ALL API calls
-- Correct the layout so somehow the "pokemon" state in "poke-card-layout" was stored while looking at a specific "pokemon-details" rather than having to reload from the page number on return. This would be more efficient. I could have done this by passing the entire list of pokemon into the Pokemon Details page, however I would then have to pass this back and it would make the URL exceedingly long and seemed like a bad way of doing this.
-- Add a server-side render on the first run to improve efficiency. The code is actually here to do this, my "fetch-pokemon" function actually works both server and client side, however to then pass the data into the PokeCardLayout wasn't easy to do, and didn't seem worth it given the time-frame.
-- (as mentioned above) have the search bar continuously refresh a page of all the items as opposed to simply waiting for "Search" to be pressed.
-- Increase compatability with different screen sizes by using more complex Tailwind CSS to account for the layouts.
+The key thing I am most proud of is developing an understanding of Next.js. It being my first time using it, I was initially baffled by client/server components and the conventions on using as few client components as possible etc. However, I now feel very confident in developing further websites using Next and I am very pleased with that.
 
 ### Errors that I am aware of:
 
 - If you search and there are more than 12 results, it will show all of the results on a single page
 - The pokemon weaknesses do not match those in the Figma. This is because I had to select the weaknesses based on a singular type rather than multiple, as each type has it's own list of weaknesses in the API. Perhaps there was some data in the API calls that I missed to find the correct weaknesses, however I wanted to move onto other aspects (such as search/loading indicators) and ran out of time to correct it.
-- (as mentioned above) The descriptions do not match those in the Figma - again as I could not find the correct one on the API.
+- The descriptions do not match those in the Figma - again as I could not find the correct one on the API.
+
+### If I had more time I would:
+
+- Add error handling for ALL API calls
+- Correct the layout so somehow the "pokemon" state in "poke-card-layout" was stored while looking at a specific "pokemon-details" rather than having to reload from the page number on return. This would be more efficient. I could have done this by passing the entire list of pokemon into the Pokemon Details page, however I would then have to pass this back and it would make the URL exceedingly long and seemed like a bad way of doing this.
+- Add a server-side render on the first run to improve efficiency - as mentioned above.
+- Increase compatability with different screen sizes by using more complex Tailwind CSS to account for the layouts.
+- Refactor "poke-desc-layout.jsx" so it has individual components for each section of the page.
 
 ## AI Usage
 
@@ -150,5 +135,4 @@ I had a few personal questions about Next JS conventions that I couldn't find an
 
 - Where does the "/pages" folder become useful? I have seen it referenced in a lot of documentation, however I was under the impression all routing is done through the file structure and I have not seen it used in any tutorials.
 
-- I read that SSR is only really used in places where the content is continuously changing or there are sensitive API calls to be made. Excluding the latter, how is it more efficient to use SSR where content needs to be continuously updated as compared to making a client side API call?
-  TODO DOUBLE CHECK THIS QUESTION
+- I read that SSR is only really used for "frequently updated data fetched from and external API" or for use in authentication from a sensitive API. Excluding the latter, in what scenario is it more efficient to use SSR where content needs to be continuously updated as compared to making a client side API call?

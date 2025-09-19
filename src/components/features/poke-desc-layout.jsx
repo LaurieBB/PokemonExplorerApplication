@@ -69,7 +69,6 @@ export default function PokeDescLayout(props) {
         ) 
     }
 
-    // TODO SEE IF I CAN GET THE CORRECT WEAKNESSES
     return (
         <div>
             <div className="flex flex-col items-center text-center w-full mb-8 gap-2 relative">
@@ -202,14 +201,3 @@ function convertPokemonID (id) {
         return "#" + id
     }
 }
-
-// TODO REMOVE THIS
-    // HAVE TO CALL API THROUGH THE ".species" to get the "flavour-text-entires" which then give the description
-    // This also has a "genera" list which contains "genus" and "language" so have to ensure the genus is correct for the english language ("en")
-
-    // To find Gender you must go through this link: https://pokeapi.co/api/v2/gender/female/, this link https://pokeapi.co/api/v2/gender/male/, this link https://pokeapi.co/api/v2/gender/genderless/
-    // and search for the pokemon name. Really stupid but i guess it is what it is
-
-    // This is the cherish ball png that is used next to the poke description "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/cherish-ball.png"
-
-    // To get weaknesses you have to use the "types" URLs and make a successive call to each type in that list and look for "double-damage" (double check)

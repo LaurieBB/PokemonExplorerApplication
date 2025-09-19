@@ -6,10 +6,8 @@ import Search from "@components/layout/search"
 import Pagination from "@components/layout/pagination"
 import { Suspense } from "react";
 
-// TODO add the extra size above and below the spinner to match the actual page
-
+ // Fallback UI that will be shown while the route is loading. Matches the layout of the main page.
 export default function Loading() {
-  // Add fallback UI that will be shown while the route is loading. Matches the layout of the main page.
   return (
     <div className="font-sans flex flex-col min-h-screen">
       <Header className="w-full"></Header>

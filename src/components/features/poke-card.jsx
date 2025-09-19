@@ -34,7 +34,6 @@ export default function PokeCard(props) { //FORMAT THE CARDS CORRECTLY HERE
         params.set("query", query)
     };  
 
-    // TODO, CHANGE ID TO CORRECT FORMAT
     return (
         <Link href={`/details/${pokemon.name}?${params.toString()}`}>
             {/* Overflow Hidden hides the parts of the image going over the card*/}
